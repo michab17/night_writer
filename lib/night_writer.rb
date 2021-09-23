@@ -1,5 +1,8 @@
 require './lib/reader'
+require './lib/writer'
 
 reader = Reader.new(ARGV[0])
+writer = Writer.new(ARGV[1])
 
-reader.read_message
+reader.get_file_contets
+writer.create_file

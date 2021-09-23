@@ -8,6 +8,8 @@ class Reader
   end
 
   def read_message
-    text = CSV.read(@file_to_read)
+    text = File.open(@file_to_read)
+    contents = text.read
+    puts contents
   end
 end

@@ -16,6 +16,7 @@ describe Reader do
 
   # describe '#read_message' do
   #   it 'reads message.txt' do
+  #     file_to_read = double("./lib/message.txt")
   #     expect(reader.read_message).to eq('This is a test message')
   #   end
   # end

@@ -1,15 +1,13 @@
-require 'csv'
-
 class Reader
   attr_reader :file_to_read
 
-  def initialize(path)
-    @file_to_read = path
+  def initialize(argv)
+    @file_to_read = argv
   end
 
-  def read_message
+  def get_file_contets
     text = File.open(@file_to_read)
     contents = text.read
-    puts contents
+    contents
   end
 end

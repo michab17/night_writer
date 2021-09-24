@@ -5,7 +5,7 @@ class Dictionary
 
   def initialize(reader, library)
     @library = library
-    @code = reader.get_file_contets
+    @code = reader.get_file_contets.delete(' ')
     @new_code = change_code
     @line1 = ""
     @line2 = ""

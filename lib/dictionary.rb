@@ -5,7 +5,8 @@ class Dictionary
 
   def initialize(reader, library)
     @library = library
-    @code = reader.get_file_contets.delete(' ')
+    @reader = Reader.new('message.txt')
+    @code = @reader.get_file_contets.delete(' ')
     @new_code = change_code
     @line1 = ""
     @line2 = ""
@@ -20,15 +21,25 @@ class Dictionary
     end
   end
 
-  def print_new_code
+  def print_first_line
     @new_code.each do |array|
       @line1 += "#{array[0]}"
+    end
+    @line1
+  end
+
+  def print_second_line
+    @new_code.each do |array|
       @line2 += "#{array[1]}"
+    end
+    @line2
+  end
+
+  def print_third_line
+    @new_code.each do |array|
       @line3 += "#{array[2]}"
     end
-    puts @line1
-    puts @line2
-    puts @line3
+    @line3
   end
 end
   # line1 = "#{@new_code[0]}" + ' ' + "#{@new_code[3]}" + ' ' + "#{@new_code[6]}"

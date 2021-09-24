@@ -7,7 +7,11 @@ class Reader
 
   def get_file_contets
     text = File.open(@file_to_read)
-    contents = text.read
+    contents = text.read.chomp
     contents
+  end
+
+  def get_char_count
+    get_file_contets.length
   end
 end

@@ -6,4 +6,4 @@ writer = Writer.new(ARGV[1])
 
 reader.get_file_contets
 writer.create_file
-puts "Created 'braille.txt' containing 256 characters"
+puts "Created 'braille.txt' containing #{reader.get_char_count} characters"

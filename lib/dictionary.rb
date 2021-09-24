@@ -7,6 +7,9 @@ class Dictionary
     @library = library
     @code = reader.get_file_contets
     @new_code = change_code
+    @line1 = ""
+    @line2 = ""
+    @line3 = ""
   end
 
   def change_code
@@ -14,14 +17,23 @@ class Dictionary
       if @library.keys.include?(letter)
         letter = @library[letter]
       end
-    end.flatten
+    end
   end
 
   def print_new_code
-    puts "#{@new_code[0]}" + ' ' + "#{@new_code[3]}" + ' ' + "#{@new_code[6]}"
-    puts "#{@new_code[1]}" + ' ' + "#{@new_code[4]}" + ' ' + "#{@new_code[7]}"
-    puts "#{@new_code[2]}" + ' ' + "#{@new_code[5]}" + ' ' + "#{@new_code[8]}"
+    @new_code.each do |array|
+      @line1 += "#{array[0]}"
+      @line2 += "#{array[1]}"
+      @line3 += "#{array[2]}"
+    end
+    puts @line1
+    puts @line2
+    puts @line3
   end
+end
+  # line1 = "#{@new_code[0]}" + ' ' + "#{@new_code[3]}" + ' ' + "#{@new_code[6]}"
+  # line2 = "#{@new_code[1]}" + ' ' + "#{@new_code[4]}" + ' ' + "#{@new_code[7]}"
+  # line3 = "#{@new_code[2]}" + ' ' + "#{@new_code[5]}" + ' ' + "#{@new_code[8]}"
 
   # def get_first_line(letter)
   #   if letter.length > 3
@@ -69,4 +81,3 @@ class Dictionary
 # puts ' ' + b[4..6]
 # print a[8..10]
 # puts ' ' + b[8..10]
-end

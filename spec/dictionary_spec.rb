@@ -71,23 +71,30 @@ describe Dictionary do
     end
   end
 
-  describe '#change_code' do
-    it 'changes code to braille' do
-      result =  [['0.', '..', '..'], ['0.', '0.', '..'], ['00', '..', '..'],
-      ['00', '.0', '..'], ['0.', '.0', '..'], ['00', '0.', '..'], ['00', '00', '..'],
-      ['0.', '00', '..'], ['.0', '0.', '..'], ['.0', '00', '..'], ['0.', '..', '0.'],
-      ['0.', '0.', '0.'], ['00', '..', '0.'], ['00', '.0', '0.'], ['0.', '.0', '0.'],
-      ['00', '0.', '0.'], ['00', '00', '0.'], ['0.', '00', '0.'], ['.0', '0.', '0.'],
-      ['.0', '00', '0.'], ['0.', '..', '00'], ['0.', '0.', '00'], ['.0', '00', '.0'],
-      ['00', '..', '00'], ['00', '.0', '00'], ['0.', '.0', '00']]
+  describe '#split_message' do
+    it 'splits the message so it doesnt go over 80 chars' do
 
-      expect(dictionary.change_code).to eq(result)
+      dictionary.split_message
+      expect(dictionary.new_code.length).to eq(26)
     end
   end
 
-  describe '#print_new_code' do
-    it 'prints code in braille' do
-      expect(dictionary.print_new_code).to eq nil
+  describe '#change_code' do
+    it 'changes code to braille' do
+      expect(dictionary.change_code).to be_an Array
+      expect(dictionary.change_code[0].length).to eq(26)
+    end
+  end
+
+  describe '#print_first_line' do
+    it 'prints first line in braille' do
+      expect(dictionary.print_first_line).to eq nil
+    end
+  end
+
+  describe '#print_fourth_line' do
+    it 'prints fourth line in braille' do
+      expect(dictionary.print_fourth_line).to eq nil
     end
   end
 end

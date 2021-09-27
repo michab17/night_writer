@@ -6,7 +6,6 @@ class Writer
 
   def initialize(argv)
     @file_to_write = argv.to_s
-    # @reader = Reader.new(ARGV[0])
     @dictionary = Dictionary.new('message.txt', {
         'a' => ['0.', '..', '..'],
         'b' => ['0.', '0.', '..'],

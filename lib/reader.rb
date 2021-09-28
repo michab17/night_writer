@@ -5,13 +5,13 @@ class Reader
     @file_to_read = argv
   end
 
-  def get_file_contets
+  def get_file_contents
     text = File.open(@file_to_read)
     contents = text.read.chomp
     contents
   end
 
   def get_char_count
-    get_file_contets.length
+    get_file_contents.length
   end
 end

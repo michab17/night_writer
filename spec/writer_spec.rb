@@ -9,16 +9,11 @@ describe Writer do
   describe '#initialize' do
     it 'exists' do
       expect(writer).to be_an_instance_of Writer
+      expect(reader).to be_an_instance_of Reader
     end
 
     it 'has a file to write' do
       expect(writer.file_to_write).to eq('braille.txt')
     end
   end
-
-  # describe '#create_file' do
-  #   it 'creates a new file with the contents of the first one' do
-  #     expect(writer.create_file).to eq('braille.txt')
-  #   end
-  # end
 end

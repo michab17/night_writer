@@ -2,76 +2,38 @@ require './lib/reader'
 
 class ReaderDictionary
   attr_reader :library,
-              :code,
-              :new_code
+              :code
 
   def initialize(reader, library)
     @library = library
     @reader = Reader.new('braille.txt')
-    @code = @reader.get_file_contets
+    @code = @reader.get_file_contents
     # require 'pry'; binding.pry
   end
 
-  # get character length, if less than 40 move right character count / 6
-  # if the count is more than 40 move to the right 78
-
-  # 0., 0., 00, 00
-  # .., 0., .., .0
-  # .., .., .., ..
-
-  def braille_to_english
-    if @code.length < 40
-      @code = @code.scan(/.{1,2}/)
-      split_code = @code.each_slice(@code.length / 3).to_a.transpose
-      new_string = ''
-      split_code.each do |array|
-        @library.each do |key, value|
-          if key == array
-            new_string += @library[key]
-          end
-        end
-      end
-      new_string
+  def one_letter(letter)
+    if @library[letter] == nil
+      ['..', '..', '..']
     else
-      new_string = ''
-      @code = @code.scan(/.{1,80}/)
-      new_code = []
-      @code.each do |string|
-        if string.length < 80
-          new_code << string
-        end
-      end
-      @code.each do |string|
-        if string.length < 80
-          @code.delete(string)
-        end
-      end
-      test = @code.map do |string|
-        string.scan(/.{1,2}/)
-      end.transpose
-      # split_code = test.each do |array|
-      #   array.each_slice(1).to_a.transpose
-      # end
-      test.each do |array|
-        @library.each do |key, value|
-          if key == array
-            new_string += @library[key]
-          end
-        end
-      end
-      # require 'pry'; binding.pry
-      test1 = new_code.map do |string|
-        string.scan(/.{1,2}/)
-      end.transpose
-      test1.each do |array|
-        @library.each do |key, value|
-          if key == array
-            new_string += @library[key]
-          end
-        end
-      end
-      new_string
+      @library[letter]
     end
   end
+
+  def braille_to_english(word)
+    new_string = ''
+    word = word.gsub!("\n", '')
+    word = word.scan(/.{1,240}/)
+    # test = word.scan(/.{1,2}/)
+    word.each do |string|
+      test1 = string.scan(/.{1,2}/)
+      test = test1.each_slice(test1.length / 3).to_a
+      please = test.transpose
+      please.each do |array|
+        new_string += one_letter(array)
+      end
+    end
+    new_string
+  end
 end
-# [["0.", "0.", "00", "00"], ["..", "0.", "..", ".0"], ["..", "..", "..", ".."], ["0.", "0.", "00", "00"], ["..", "0.", "..", ".0"], ["..", "..", "..", ".."], ["0.", "0.", "00", "00"], ["..", "0.", "..", ".0"], ["..", "..", "..", ".."]]
+# this program can translate everything you put in here as long as it is not symbols or numbers or anything weird
+# ".00.00..000.0..0...00..0.0..0.000.00...00.0.0....00.000..0.0000..0...0..000.00.0\n0000.0...0.0.00...00000.0....0.00..0..00.000....0..0...0000....00...0....0.0.000\n.0..00....0...0...0.....0...0.0.0.00...00.0.0...0.0.0...0...0...0.........0.0.0."

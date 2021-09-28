@@ -31,7 +31,6 @@ describe Dictionary do
       'x' => ['00', '..', '00'],
       'y' => ['00', '.0', '00'],
       'z' => ['0.', '.0', '00']
-      # " " => ['..', '..', '..']
       }}
   let(:dictionary) {Dictionary.new(reader = Reader.new('message.txt'), library)}
 

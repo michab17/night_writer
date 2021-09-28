@@ -4,7 +4,7 @@ require './lib/dictionary'
 describe Dictionary do
   let(:reader) { Reader.new('message.txt') }
   let(:braille_reader) { Reader.new('braille.txt') }
-  let(:dictionary) {Dictionary.new(reader = Reader.new('message.txt'), {
+  let(:library) {{
       'a' => ['0.', '..', '..'],
       'b' => ['0.', '0.', '..'],
       'c' => ['00', '..', '..'],
@@ -31,171 +31,46 @@ describe Dictionary do
       'x' => ['00', '..', '00'],
       'y' => ['00', '.0', '00'],
       'z' => ['0.', '.0', '00']
-      })}
-  let(:reader_dictionary) {Dictionary.new(reader = Reader.new('braille.txt'), {
-      ['0.', '..', '..'] => 'a',
-      ['0.', '0.', '..'] => 'b',
-      ['00', '..', '..'] => 'c',
-      ['00', '.0', '..'] => 'd',
-      ['0.', '.0', '..'] => 'e',
-      ['00', '0.', '..'] => 'f',
-      ['00', '00', '..'] => 'g',
-      ['0.', '00', '..'] => 'h',
-      ['.0', '0.', '..'] => 'i',
-      ['.0', '00', '..'] => 'j',
-      ['0.', '..', '0.'] => 'k',
-      ['0.', '0.', '0.'] => 'l',
-      ['00', '..', '0.'] => 'm',
-      ['00', '.0', '0.'] => 'n',
-      ['0.', '.0', '0.'] => 'o',
-      ['00', '0.', '0.'] => 'p',
-      ['00', '00', '0.'] => 'q',
-      ['0.', '00', '0.'] => 'r',
-      ['.0', '0.', '0.'] => 's',
-      ['.0', '00', '0.'] => 't',
-      ['0.', '..', '00'] => 'u',
-      ['0.', '0.', '00'] => 'v',
-      ['.0', '00', '.0'] => 'w',
-      ['00', '..', '00'] => 'x',
-      ['00', '.0', '00'] => 'y',
-      ['0.', '.0', '00'] => 'z'
-      })}
+      # " " => ['..', '..', '..']
+      }}
+  let(:dictionary) {Dictionary.new(reader = Reader.new('message.txt'), library)}
 
   describe 'initialize' do
     it 'exists' do
       expect(dictionary).to be_an_instance_of Dictionary
-      expect(reader_dictionary).to be_an_instance_of Dictionary
     end
 
     it 'has a dictionary' do
-      library = {
-          'a' => ['0.', '..', '..'],
-          'b' => ['0.', '0.', '..'],
-          'c' => ['00', '..', '..'],
-          'd' => ['00', '.0', '..'],
-          'e' => ['0.', '.0', '..'],
-          'f' => ['00', '0.', '..'],
-          'g' => ['00', '00', '..'],
-          'h' => ['0.', '00', '..'],
-          'i' => ['.0', '0.', '..'],
-          'j' => ['.0', '00', '..'],
-          'k' => ['0.', '..', '0.'],
-          'l' => ['0.', '0.', '0.'],
-          'm' => ['00', '..', '0.'],
-          'n' => ['00', '.0', '0.'],
-          'o' => ['0.', '.0', '0.'],
-          'p' => ['00', '0.', '0.'],
-          'q' => ['00', '00', '0.'],
-          'r' => ['0.', '00', '0.'],
-          's' => ['.0', '0.', '0.'],
-          't' => ['.0', '00', '0.'],
-          'u' => ['0.', '..', '00'],
-          'v' => ['0.', '0.', '00'],
-          'w' => ['.0', '00', '.0'],
-          'x' => ['00', '..', '00'],
-          'y' => ['00', '.0', '00'],
-          'z' => ['0.', '.0', '00']
-          }
-
       expect(dictionary.library).to eq(library)
     end
   end
 
-  describe '#split_message' do
-    it 'splits the message so it doesnt go over 80 chars' do
-      expect(dictionary.new_code).to be_an Array
-      expect(dictionary.new_code.length).to eq(6)
+  describe 'single_character' do
+    it 'prints a braille single character' do
+      expect(dictionary.single_character(' ')).to eq(["..", "..", ".."])
     end
   end
 
-  describe '#change_code' do
-    it 'changes code to braille' do
-      expect(dictionary.change_code).to be_an Array
-      expect(dictionary.change_code[0].length).to eq(40)
+  describe 'translates a space' do
+    it 'replaces a space with an underscore' do
+      expected = "..\n..\n..\n"
+
+      expect(dictionary.braille_word(' ')).to eq(expected)
     end
   end
 
-  describe '#print_first_line' do
-    it 'prints first line in braille' do
-      expect(dictionary.print_first_line).to be_a String
+  describe 'three_characters' do
+    it 'prints three braille characters' do
+      expect(dictionary.braille_word('bar')).to eq("0.0.0.\n0...00\n....0.\n")
     end
   end
 
-  describe '#print_fourth_line' do
-    it 'prints fourth line in braille' do
-      expect(dictionary.print_fourth_line).to be_a String
-      expect(dictionary.print_fourth_line).to_not eq(dictionary.print_first_line)
+  describe 'wrap' do
+    it 'wraps after 40 characters' do
+      string = 'the cheese is old and moldy wheres the ba'
+
+      expected =".00.0...000.0.0..00....0.0..0.0.00..0.0000..000.0.0000...00.0.0.0..0...00.0...0.\n0000.0....00.0.00..0..0.0....00..0.....0.0.....00..0.0..0000.000.00...0000.0..0.\n0...............0.......0...0.0.......0.....0.0.0...00...0....0...0...0.........\n0.\n..\n..\n"
+      expect(dictionary.braille_word(string)).to eq(expected)
     end
   end
-
 end
-
-#   describe '#get_first_line' do
-#     it 'gets the first line of the braille' do
-#         a = '0 . . . . .'
-#
-#       result = '0 .'
-#
-#       expect(dictionary.get_first_line(a)).to eq(result)
-#     end
-#   end
-#
-#   describe '#get_second_line' do
-#     it 'gets the first line of the braille' do
-#         a = '0 . . . . .'
-#
-#       result = '. .'
-#
-#       expect(dictionary.get_second_line(a)).to eq(result)
-#     end
-#   end
-#
-#   describe '#get_third_line' do
-#     it 'gets the first line of the braille' do
-#         a = '0 . . . . .'
-#
-#       result = '. .'
-#
-#       expect(dictionary.get_third_line(a)).to eq(result)
-#     end
-#   end
-#
-#   describe '#split_hash' do
-#     it 'gets the first line of all a hash' do
-#       x = {
-#         a: '0 . . . . .',
-#         b: '0 . 0 . . .',
-#         c: '0 0 . . . .',
-#         d: '0 0 . 0 . .',
-#         e: '0 . . 0 . .',
-#         f: '0 0 0 . . .',
-#         g: '0 0 0 0 . .',
-#         h: '0 . 0 0 . .',
-#         i: '. 0 0 . . .',
-#         j: '. 0 0 0 . .',
-#         k: '0 . . . 0 .'}
-#
-#       result = {
-#         a: ['0 .', '. .', '. .'],
-#         b: ['0 .', '0 .', '. .'],
-#         c: ['0 0', '. .', '. .'],
-#         d: ['0 0', '. 0', '. .'],
-#         e: ['0 .', '. 0', '. .'],
-#         f: ['0 0', '0 .', '. .'],
-#         g: ['0 0', '0 0', '. .'],
-#         h: ['0 .', '0 0', '. .'],
-#         i: ['. 0', '0 .', '. .'],
-#         j: ['. 0', '0 0', '. .'],
-#         k: ['0 .', '. .', '0 .']}
-#
-#       expect(dictionary.split_hash(x)).to eq(result)
-#     end
-#   end
-#
-#   describe '#print' do
-#     xit 'prints the split hash' do
-#       require 'pry'; binding.pry
-#       expect(dictionary.print).to eq nil
-#     end
-#   end
-# end

@@ -7,6 +7,7 @@ class NightReaderWriter
 
   def initialize(argv)
     @file_to_write = argv.to_s
+    @reader = Reader.new('braille.txt')
     @reader_dictionary = ReaderDictionary.new('braille.txt', {
         ['..', '..', '..'] => ' ',
         ['0.', '..', '..'] => 'a',
@@ -39,6 +40,6 @@ class NightReaderWriter
   end
 
   def create_english_file
-    File.open(@file_to_write, "w") { |file| file.write @reader_dictionary.braille_to_english }
+    File.open(@file_to_write, "w") { |file| file.write @reader_dictionary.braille_to_english(@reader.get_file_contents) }
   end
 end

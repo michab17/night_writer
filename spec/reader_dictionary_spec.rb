@@ -39,17 +39,19 @@ describe ReaderDictionary do
     end
   end
 
-  describe 'one_letter' do
+  describe '#one_letter' do
     it 'converts one letter from braille to english' do
       expect(dictionary.one_letter(['0.', '..', '..'])).to eq('a')
     end
   end
 
-  describe 'translate_string' do
+  describe '#braille_to_english' do
     it 'converts a string from braille to english' do
-      word = ".00..0.0..000.0.000.0.00..000.00...00.0.00.00.0..00...0.0.0.0.00.00..00000..000.\n00000.0...0.00.00000...........0..0000...00.0...00.0...00..000.000000..000...0.0\n0.....0...0.0.0...0...0.......0...0.0...0.0.0...0.......00..0.000.....0.....000.\n0.\n..\n00"
-      
-      expect(dictionary.braille_to_english(word)).to eq('aaa')
+      word1 = "0.0.0.0.0.0.\n............\n............"
+      word2 = "0.0.0.\n......\n......"
+
+      expect(dictionary.braille_to_english(word1)).to be_a String
+      expect(dictionary.braille_to_english(word2)).to eq('aaa')
     end
   end
 end

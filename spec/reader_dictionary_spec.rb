@@ -3,8 +3,7 @@ require './lib/reader_dictionary'
 
 describe ReaderDictionary do
   let(:reader) { Reader.new('braille.txt') }
-  let(:dictionary) {ReaderDictionary.new(reader = Reader.new('message.txt'), {
-      ['..', '..', '..'] => ' ',
+  let(:library) {{
       ['0.', '..', '..'] => 'a',
       ['0.', '0.', '..'] => 'b',
       ['00', '..', '..'] => 'c',
@@ -31,7 +30,8 @@ describe ReaderDictionary do
       ['00', '..', '00'] => 'x',
       ['00', '.0', '00'] => 'y',
       ['0.', '.0', '00'] => 'z'
-      })}
+      }}
+  let(:dictionary) {ReaderDictionary.new(reader = Reader.new('message.txt'), library) }
 
   describe 'initialize' do
     it 'exists' do
@@ -39,9 +39,17 @@ describe ReaderDictionary do
     end
   end
 
-  describe '#braille_to_english' do
-    it 'converts braille to english' do
-      expect(dictionary.braille_to_english).to eq('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+  describe 'one_letter' do
+    it 'converts one letter from braille to english' do
+      expect(dictionary.one_letter(['0.', '..', '..'])).to eq('a')
+    end
+  end
+
+  describe 'translate_string' do
+    it 'converts a string from braille to english' do
+      word = ".00..0.0..000.0.000.0.00..000.00...00.0.00.00.0..00...0.0.0.0.00.00..00000..000.\n00000.0...0.00.00000...........0..0000...00.0...00.0...00..000.000000..000...0.0\n0.....0...0.0.0...0...0.......0...0.0...0.0.0...0.......00..0.000.....0.....000.\n0.\n..\n00"
+      
+      expect(dictionary.braille_to_english(word)).to eq('aaa')
     end
   end
 end

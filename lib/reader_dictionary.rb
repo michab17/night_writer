@@ -23,10 +23,10 @@ class ReaderDictionary
     word = word.gsub!("\n", '')
     word = word.scan(/.{1,240}/)
     word.each do |string|
-      test1 = string.scan(/.{1,2}/)
-      test = test1.each_slice(test1.length / 3).to_a
-      please = test.transpose
-      please.each do |array|
+      split_string = string.scan(/.{1,2}/)
+      array_of_strings = split_string.each_slice(split_string.length / 3).to_a
+      ordered_strings = array_of_strings.transpose
+      ordered_strings.each do |array|
         new_string += one_letter(array)
       end
     end

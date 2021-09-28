@@ -6,6 +6,7 @@ class Writer
 
   def initialize(argv)
     @file_to_write = argv.to_s
+    @reader = Reader.new('message.txt')
     @dictionary = Dictionary.new('message.txt', {
         'a' => ['0.', '..', '..'],
         'b' => ['0.', '0.', '..'],
@@ -37,27 +38,6 @@ class Writer
   end
 
   def create_file
-    File.open(@file_to_write, "w") { |file| file.write @dictionary.print_first_line + "\n" + @dictionary.print_second_line + "\n" + @dictionary.print_third_line + "\n"}
-    if @dictionary.code.length > 40
-      File.write(@file_to_write, @dictionary.print_fourth_line + "\n" + @dictionary.print_fifth_line + "\n" + @dictionary.print_sixth_line + "\n", mode: "a")
-    end
-    if @dictionary.code.length > 80
-      File.write(@file_to_write, @dictionary.print_seventh_line + "\n" + @dictionary.print_eighth_line + "\n" + @dictionary.print_ninth_line + "\n", mode: "a")
-    end
-    if @dictionary.code.length > 120
-      File.write(@file_to_write, @dictionary.print_tenth_line + "\n" + @dictionary.print_eleventh_line + "\n" + @dictionary.print_twelfth_line + "\n", mode: "a")
-    end
-    if @dictionary.code.length > 160
-      File.write(@file_to_write, @dictionary.print_thirteenth_line + "\n" + @dictionary.print_fourteenth_line + "\n" + @dictionary.print_fifteenth_line + "\n", mode: "a")
-    end
-    if @dictionary.code.length > 200
-      File.write(@file_to_write, @dictionary.print_sixteenth_line + "\n" + @dictionary.print_seventeenth_line + "\n" + @dictionary.print_eighteenth_line + "\n", mode: "a")
-    end
-    if @dictionary.code.length > 240
-      File.write(@file_to_write, @dictionary.print_nineteenth_line + "\n" + @dictionary.print_twentieth_line + "\n" + @dictionary.print_twenty_first_line + "\n", mode: "a")
-    end
-    if @dictionary.code.length > 280
-      File.write(@file_to_write, @dictionary.print_twenty_second_line + "\n" + @dictionary.print_twenty_third_line + "\n" + @dictionary.print_twenty_fourth_line + "\n", mode: "a")
-    end
+    File.open(@file_to_write, "w") { |file| file.write @dictionary.braille_word(@reader.get_file_contents) }
   end
 end
